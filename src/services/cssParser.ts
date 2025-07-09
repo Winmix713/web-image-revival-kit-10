@@ -1,4 +1,34 @@
 
+// Enhanced CSS Parser for Figma JS Generator
+export interface CSSProperty {
+  property: string;
+  value: string;
+  important: boolean;
+  line: number;
+}
+
+export interface CSSRule {
+  selector: string;
+  properties: CSSProperty[];
+  specificity: number;
+  line: number;
+  column: number;
+}
+
+export interface CSSParseResult {
+  rules: CSSRule[];
+  errors: string[];
+  warnings: string[];
+  statistics: {
+    totalRules: number;
+    totalProperties: number;
+    totalSelectors: number;
+    processingTime: number;
+  };
+  isValid: boolean;
+}
+
+// Legacy interface for backwards compatibility
 export interface ParsedCSSRule {
   selector: string;
   properties: Record<string, string>;
@@ -19,7 +49,75 @@ export interface ParsedCSSData {
 }
 
 export class CSSParser {
-  static parse(cssText: string): ParsedCSSData {
+  // Enhanced parse method for CSS enhancement
+  static parse(cssText: string): CSSParseResult {
+    const startTime = performance.now();
+    const result: CSSParseResult = {
+      rules: [],
+      errors: [],
+      warnings: [],
+      statistics: {
+        totalRules: 0,
+        totalProperties: 0,
+        totalSelectors: 0,
+        processingTime: 0
+      },
+      isValid: true
+    };
+
+    try {
+      // Remove comments
+      const cleanCSS = cssText.replace(/\/\*[\s\S]*?\*\//g, '');
+      
+      // Parse rules using regex
+      const ruleRegex = /([^{]+)\{([^}]+)\}/g;
+      let match;
+      let lineNumber = 1;
+
+      while ((match = ruleRegex.exec(cleanCSS)) !== null) {
+        const selector = match[1].trim();
+        const declarations = match[2].trim();
+        
+        if (!selector || !declarations) {
+          result.warnings.push(`Empty rule at line ${lineNumber}`);
+          continue;
+        }
+
+        try {
+          const properties = this.parsePropertiesEnhanced(declarations, lineNumber);
+          
+          result.rules.push({
+            selector,
+            properties,
+            specificity: this.calculateSpecificity(selector),
+            line: lineNumber,
+            column: 1
+          });
+
+          result.statistics.totalProperties += properties.length;
+          result.statistics.totalSelectors += selector.split(',').length;
+          
+        } catch (error) {
+          result.errors.push(`Error parsing rule at line ${lineNumber}: ${error}`);
+          result.isValid = false;
+        }
+        
+        lineNumber++;
+      }
+
+      result.statistics.totalRules = result.rules.length;
+      result.statistics.processingTime = performance.now() - startTime;
+      
+    } catch (error) {
+      result.errors.push(`Critical parsing error: ${error}`);
+      result.isValid = false;
+    }
+
+    return result;
+  }
+
+  // Legacy parse method for backwards compatibility
+  static parseLegacy(cssText: string): ParsedCSSData {
     const rules = this.parseRules(cssText);
     const variables = this.extractVariables(cssText);
     
@@ -33,6 +131,25 @@ export class CSSParser {
       shadows: this.extractShadows(rules),
       animations: this.extractAnimations(rules)
     };
+  }
+
+  private static parsePropertiesEnhanced(declarations: string, startLine: number): CSSProperty[] {
+    const properties: CSSProperty[] = [];
+    const propRegex = /([a-zA-Z-]+)\s*:\s*([^;]+)(!important)?;?/g;
+    let match;
+    let lineOffset = 0;
+
+    while ((match = propRegex.exec(declarations)) !== null) {
+      properties.push({
+        property: match[1].trim(),
+        value: match[2].trim(),
+        important: !!match[3],
+        line: startLine + lineOffset
+      });
+      lineOffset++;
+    }
+
+    return properties;
   }
 
   private static parseRules(cssText: string): ParsedCSSRule[] {

@@ -1,5 +1,8 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
+import React, { Component, ReactNode, ErrorInfo } from 'react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { AlertCircle, RefreshCw, Bug } from 'lucide-react';
 
 interface Props {
   children: ReactNode;
@@ -12,40 +15,23 @@ interface State {
   errorInfo: ErrorInfo | null;
 }
 
-class ErrorBoundary extends Component<Props, State> {
+export class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-      hasError: false,
-      error: null,
-      errorInfo: null
-    };
+    this.state = { hasError: false, error: null, errorInfo: null };
   }
 
   static getDerivedStateFromError(error: Error): State {
-    return {
-      hasError: true,
-      error,
-      errorInfo: null
-    };
+    return { hasError: true, error, errorInfo: null };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    this.setState({
-      error,
-      errorInfo
-    });
-
-    // Log error to monitoring service
     console.error('ErrorBoundary caught an error:', error, errorInfo);
+    this.setState({ error, errorInfo });
   }
 
-  handleRetry = () => {
-    this.setState({
-      hasError: false,
-      error: null,
-      errorInfo: null
-    });
+  handleReset = () => {
+    this.setState({ hasError: false, error: null, errorInfo: null });
   };
 
   handleReload = () => {
@@ -59,49 +45,49 @@ class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div className="min-h-screen bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950 text-neutral-100 flex items-center justify-center p-4">
-          <div className="max-w-md w-full text-center space-y-6">
-            <div className="w-16 h-16 mx-auto bg-red-600/20 rounded-full flex items-center justify-center">
-              <AlertTriangle className="w-8 h-8 text-red-400" />
-            </div>
-            
-            <div>
-              <h1 className="text-xl font-semibold mb-2">Something went wrong</h1>
-              <p className="text-neutral-400 text-sm">
-                An unexpected error occurred. Please try refreshing the page or contact support if the problem persists.
-              </p>
-            </div>
-
-            {process.env.NODE_ENV === 'development' && this.state.error && (
-              <details className="text-left bg-neutral-900 border border-neutral-800 rounded-lg p-4">
-                <summary className="cursor-pointer text-sm font-medium text-red-400 mb-2">
-                  Error Details
-                </summary>
-                <pre className="text-xs text-neutral-300 overflow-auto">
-                  {this.state.error.toString()}
-                  {this.state.errorInfo?.componentStack}
-                </pre>
-              </details>
-            )}
-
-            <div className="flex gap-3 justify-center">
-              <button
-                onClick={this.handleRetry}
-                className="flex items-center gap-2 px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-white rounded-lg transition-colors"
-              >
-                <RefreshCw className="w-4 h-4" />
-                Try Again
-              </button>
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+          <Card className="max-w-2xl w-full">
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <AlertCircle className="h-5 w-5 text-red-500" />
+                <CardTitle className="text-red-600">Something went wrong</CardTitle>
+              </div>
+              <CardDescription>
+                An unexpected error occurred in the application. Please try refreshing the page or contact support if the issue persists.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Alert variant="destructive">
+                <Bug className="h-4 w-4" />
+                <AlertTitle>Error Details</AlertTitle>
+                <AlertDescription className="font-mono text-sm">
+                  {this.state.error?.message || 'Unknown error'}
+                </AlertDescription>
+              </Alert>
               
-              <button
-                onClick={this.handleReload}
-                className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
-              >
-                <Home className="w-4 h-4" />
-                Reload Page
-              </button>
-            </div>
-          </div>
+              <div className="flex gap-2">
+                <Button onClick={this.handleReset} variant="default">
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Try Again
+                </Button>
+                <Button onClick={this.handleReload} variant="outline">
+                  Reload Page
+                </Button>
+              </div>
+
+              {process.env.NODE_ENV === 'development' && this.state.errorInfo && (
+                <details className="mt-4 p-4 bg-gray-100 rounded-lg">
+                  <summary className="cursor-pointer font-medium">
+                    Technical Details (Development Mode)
+                  </summary>
+                  <pre className="mt-2 text-xs overflow-auto">
+                    {this.state.error?.stack}
+                    {this.state.errorInfo.componentStack}
+                  </pre>
+                </details>
+              )}
+            </CardContent>
+          </Card>
         </div>
       );
     }
