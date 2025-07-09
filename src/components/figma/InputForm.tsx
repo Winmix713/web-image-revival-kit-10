@@ -58,7 +58,7 @@ export function InputForm({ onGenerate, isLoading }: InputFormProps) {
     
     // Auto-extract node ID from URL
     const extractedNodeId = figmaApi.extractNodeIdFromUrl(value);
-    if (extractedNodeId && !nodeId) {
+    if (extractedNodeId) {
       setNodeId(extractedNodeId);
     }
     
