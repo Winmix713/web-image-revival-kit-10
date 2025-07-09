@@ -8,7 +8,7 @@ import { GenerationOptions } from './types';
 import { useCodeGeneration } from './hooks/useCodeGeneration';
 import { GenerationOptionsForm } from './components/GenerationOptionsForm';
 import { ValidationResults } from './components/ValidationResults';
-import { CodeDisplay } from './components/CodeDisplay';
+import { EnhancedCodeDisplay } from './components/EnhancedCodeDisplay';
 
 interface CodeGeneratorCoreProps {
   figmaData: FigmaApiResponse;
@@ -38,6 +38,9 @@ export const CodeGeneratorCore: React.FC<CodeGeneratorCoreProps> = ({
     isGenerating,
     validationResult,
     statistics,
+    extractedComponents,
+    extractedStyles,
+    designSystem,
     generateAdvancedCode
   } = useCodeGeneration(figmaData, fileKey);
 
@@ -55,11 +58,11 @@ export const CodeGeneratorCore: React.FC<CodeGeneratorCoreProps> = ({
           </div>
         </div>
         <h3 className="text-2xl font-bold text-gray-900 mb-2">
-          JavaScript Code Generator
+          Advanced JavaScript Code Generator
         </h3>
         <p className="text-gray-600 max-w-2xl mx-auto">
           Generate production-ready JavaScript code from your Figma designs with advanced features 
-          including TypeScript support, modular exports, and comprehensive validation.
+          including TypeScript support, modular exports, design system extraction, and comprehensive validation.
         </p>
       </div>
 
@@ -83,12 +86,12 @@ export const CodeGeneratorCore: React.FC<CodeGeneratorCoreProps> = ({
           {isGenerating ? (
             <>
               <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2" />
-              Generating Code...
+              Generating Enhanced Code...
             </>
           ) : (
             <>
               <Sparkles className="w-5 h-5 mr-2" />
-              Generate JavaScript Code
+              Generate Advanced JavaScript Code
             </>
           )}
         </Button>
@@ -101,13 +104,29 @@ export const CodeGeneratorCore: React.FC<CodeGeneratorCoreProps> = ({
         )}
       </AnimatePresence>
 
-      {/* Generated Code Display */}
+      {/* Enhanced Code Display */}
       <AnimatePresence>
         {generatedCode && (
-          <CodeDisplay
+          <EnhancedCodeDisplay
             generatedCode={generatedCode}
             options={options}
             fileName={figmaData.name}
+            extractedComponents={extractedComponents}
+            extractedStyles={extractedStyles}
+            designSystem={designSystem || {
+              colors: {},
+              typography: {},
+              spacing: [],
+              effects: {},
+              components: [],
+              styles: []
+            }}
+            metadata={{
+              fileKey,
+              version: figmaData.version,
+              lastModified: figmaData.lastModified,
+              statistics
+            }}
           />
         )}
       </AnimatePresence>
