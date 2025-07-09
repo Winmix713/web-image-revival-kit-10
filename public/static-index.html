@@ -1,0 +1,364 @@
+
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WinMix Tipster</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom, rgb(3, 7, 18), rgb(3, 7, 18), rgb(0, 0, 0));
+        }
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .bg-grid-pattern {
+            background-size: 20px 20px;
+            background-image: radial-gradient(circle, #3b82f608 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="min-h-screen overflow-x-hidden text-white">
+    <!-- Enhanced background effects -->
+    <div class="fixed inset-0 -z-10">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_25%,rgba(59,130,246,0.15),transparent_60%)]"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(139,92,246,0.15),transparent_50%)]"></div>
+        <div class="absolute inset-0 bg-grid-pattern opacity-[0.02]"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-black/30 py-3 shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-b border-white/5">
+        <div class="container mx-auto px-4 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="/" class="flex items-center gap-3 group">
+                <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-600/90 to-blue-700/90 flex items-center justify-center shadow-lg backdrop-blur-sm border border-blue-400/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                        <path d="M4 22h16"></path>
+                        <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                        <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                        <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+                    </svg>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-bold text-lg tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-100">WINMIX</span>
+                    <span class="text-[10px] -mt-1 text-blue-400/80 tracking-widest">TIPSTER</span>
+                </div>
+            </a>
+
+            <!-- Navigation -->
+            <nav class="hidden md:flex items-center gap-6">
+                <a href="/" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600/20 text-blue-400">Főoldal</a>
+                <a href="/teams" class="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-300 hover:bg-white/5 hover:text-white">Csapatok</a>
+                <a href="/matches" class="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-300 hover:bg-white/5 hover:text-white">Mérkőzések</a>
+                <a href="/statistics" class="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-300 hover:bg-white/5 hover:text-white">Statisztika</a>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors">
+                    Bejelentkezés
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative min-h-[85vh] flex items-center pt-32 pb-20">
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <!-- Hero Content -->
+                    <div class="flex flex-col gap-6">
+                        <div class="inline-flex items-center gap-2 py-2 px-4 bg-gradient-to-r from-blue-500/10 to-blue-500/5 backdrop-blur-sm border border-blue-500/20 rounded-full mb-8">
+                            <span class="relative flex h-2 w-2">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
+                            </span>
+                            <span class="text-sm font-medium text-blue-300">Tippelj mérkőzésekre és nyerj jutalmakat</span>
+                        </div>
+
+                        <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
+                            <span class="block mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-100 to-gray-300">
+                                Emeld új szintre
+                            </span>
+                            <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500">
+                                mérkőzés tippjeidet
+                            </span>
+                        </h1>
+
+                        <p class="text-xl text-gray-300 max-w-xl">
+                            Csatlakozz ezrekhez, akik tippelési tudásukat tesztelik és versenyeznek, hogy a ranglista élére kerüljenek.
+                        </p>
+
+                        <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                            <a href="/signup" class="group relative overflow-hidden inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 py-4 rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all duration-300">
+                                <span>Kezdj el tippelni</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 12h14"/>
+                                    <path d="m12 5 7 7-7 7"/>
+                                </svg>
+                                <div class="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-20 group-hover:animate-shine" />
+                            </a>
+                            <a href="/learn-more" class="inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-xl border border-white/10 hover:border-white/20 transition-all duration-300">
+                                További információk
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Match Preview Card -->
+                    <div class="relative mx-auto lg:mx-0">
+                        <div class="w-[380px] h-[420px] rounded-[2rem] overflow-hidden backdrop-blur-xl bg-gradient-to-br from-gray-900/80 via-gray-900/70 to-gray-900/80 border border-white/10 shadow-[0_30px_60px_rgba(0,0,0,0.4)] transform rotate-3 transition-all duration-500 hover:rotate-0 hover:scale-105 hover:shadow-[0_30px_80px_rgba(59,130,246,0.2)]">
+                            <div class="h-full w-full p-8 flex flex-col">
+                                <!-- Match header with status -->
+                                <div class="flex justify-between items-center mb-6">
+                                    <div class="bg-blue-500/20 backdrop-blur-md rounded-full px-3 py-1.5 border border-blue-400/20">
+                                        <span class="text-xs font-medium text-blue-300">Élő mérkőzés</span>
+                                    </div>
+                                    <div class="text-xs font-medium text-blue-400 bg-blue-500/10 px-3 py-1.5 rounded-full backdrop-blur-md border border-blue-400/10">21:00</div>
+                                </div>
+
+                                <!-- Teams Display -->
+                                <div class="flex items-center justify-between mt-4">
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-18 h-18 rounded-full bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-xl border border-white/5 mb-3 p-4 flex items-center justify-center">
+                                            <img src="https://media.api-sports.io/football/teams/42.png" alt="Arsenal" class="w-12 h-12 object-contain">
+                                        </div>
+                                        <span class="text-sm font-medium text-white">Arsenal</span>
+                                        <span class="text-xs text-blue-400 mt-1">Otthon</span>
+                                    </div>
+
+                                    <div class="flex flex-col items-center mx-4">
+                                        <div class="text-lg font-bold mb-1 text-gray-400">VS</div>
+                                        <div class="text-xs text-blue-400 py-1 px-3 rounded-full bg-blue-500/10 backdrop-blur-sm border border-blue-400/10 animate-pulse">Élő</div>
+                                    </div>
+
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-18 h-18 rounded-full bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-xl border border-white/5 mb-3 p-4 flex items-center justify-center">
+                                            <img src="https://media.api-sports.io/football/teams/49.png" alt="Chelsea" class="w-12 h-12 object-contain">
+                                        </div>
+                                        <span class="text-sm font-medium text-white">Chelsea</span>
+                                        <span class="text-xs text-blue-400 mt-1">Vendég</span>
+                                    </div>
+                                </div>
+
+                                <!-- Prediction Stats -->
+                                <div class="mt-auto mb-4">
+                                    <div class="text-xs text-gray-400 mb-2">Tipp esélyek</div>
+                                    <div class="flex gap-1 items-center">
+                                        <div class="flex-1 h-1.5 bg-gray-800 rounded-full overflow-hidden">
+                                            <div class="h-full bg-blue-500 rounded-full" style="width: 42%"></div>
+                                        </div>
+                                        <span class="text-xs text-blue-400 min-w-[30px] text-right">42%</span>
+                                    </div>
+                                    <div class="flex gap-1 items-center mt-1.5">
+                                        <div class="flex-1 h-1.5 bg-gray-800 rounded-full overflow-hidden">
+                                            <div class="h-full bg-gray-500 rounded-full" style="width: 28%"></div>
+                                        </div>
+                                        <span class="text-xs text-gray-400 min-w-[30px] text-right">28%</span>
+                                    </div>
+                                    <div class="flex gap-1 items-center mt-1.5">
+                                        <div class="flex-1 h-1.5 bg-gray-800 rounded-full overflow-hidden">
+                                            <div class="h-full bg-blue-500 rounded-full" style="width: 30%"></div>
+                                        </div>
+                                        <span class="text-xs text-blue-400 min-w-[30px] text-right">30%</span>
+                                    </div>
+                                </div>
+
+                                <!-- Prediction Buttons -->
+                                <div class="grid grid-cols-3 gap-2">
+                                    <button class="bg-gradient-to-br from-white/10 to-white/5 text-xs text-white rounded-lg py-2.5 backdrop-blur-sm border border-white/10 hover:border-blue-400/20 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(59,130,246,0.2)]">
+                                        Hazai
+                                    </button>
+                                    <button class="bg-gradient-to-br from-white/10 to-white/5 text-xs text-white rounded-lg py-2.5 backdrop-blur-sm border border-white/10 hover:border-blue-400/20 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(59,130,246,0.2)]">
+                                        Döntetlen
+                                    </button>
+                                    <button class="bg-gradient-to-br from-white/10 to-white/5 text-xs text-white rounded-lg py-2.5 backdrop-blur-sm border border-white/10 hover:border-blue-400/20 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(59,130,246,0.2)]">
+                                        Vendég
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Floating decorative elements -->
+                        <div class="absolute top-[20%] right-[5%] w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/30 to-blue-600/30 backdrop-blur-sm border border-white/10 flex items-center justify-center shadow-[0_4px_20px_rgba(59,130,246,0.3)] animate-float" style="animation-duration: 4s">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="text-white h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                                <path d="M4 22h16"></path>
+                                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                                <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+                            </svg>
+                        </div>
+                        <div class="absolute bottom-[15%] left-[10%] w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-500/20 to-purple-600/20 backdrop-blur-sm border border-white/10 flex items-center justify-center shadow-[0_4px_20px_rgba(139,92,246,0.3)] animate-float" style="animation-duration: 5s; animation-delay: 1s">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="text-white h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="py-28 relative">
+            <div class="absolute inset-0 overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-blue-900/5 via-blue-900/10 to-transparent opacity-80"></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-blue-500/5 blur-3xl"></div>
+            </div>
+
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="max-w-5xl mx-auto">
+                    <div class="bg-gradient-to-br from-gray-900/90 via-gray-900/95 to-black/95 rounded-3xl overflow-hidden backdrop-blur-xl border border-white/10 shadow-[0_30px_80px_rgba(0,0,0,0.4)]">
+                        <div class="h-1 w-full bg-gradient-to-r from-blue-400/70 via-blue-500/70 to-blue-600/70"></div>
+                        <div class="p-12">
+                            <div class="inline-flex items-center gap-2 py-2 px-4 bg-gradient-to-r from-blue-500/20 to-blue-500/5 backdrop-blur-sm rounded-full mb-8 border border-blue-500/20">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+                                    <path d="M5 3v4"/>
+                                    <path d="M19 17v4"/>
+                                    <path d="M3 5h4"/>
+                                    <path d="M17 19h4"/>
+                                </svg>
+                                <span class="text-sm font-medium text-blue-300">Emeld szintet tippelési élményed</span>
+                            </div>
+
+                            <h2 class="text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-200">
+                                Készen állsz tesztelni előrejelzési képességeidet?
+                            </h2>
+                            <p class="text-gray-300 text-lg mb-8">
+                                Csatlakozz ezrekhez, akik előrejelzéseket készítenek, versenyeznek barátaikkal, és megmásszák a ranglistákat.
+                            </p>
+
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <a href="/signup" class="group relative overflow-hidden inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium px-7 py-3.5 rounded-xl shadow-lg transition-all duration-300">
+                                    <span>Ingyenes fiók létrehozása</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M5 12h14"/>
+                                        <path d="m12 5 7 7-7 7"/>
+                                    </svg>
+                                </a>
+                                <a href="/explore" class="group inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 backdrop-blur-sm text-white font-medium px-7 py-3.5 rounded-xl border border-white/10 hover:border-white/20 transition-all duration-300">
+                                    <span>Mérkőzések böngészése</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-b from-transparent to-black/80 backdrop-blur-sm pt-20 pb-10 border-t border-white/5 relative">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <div class="col-span-1 lg:col-span-1">
+                    <a href="/" class="flex items-center gap-3 mb-6 group">
+                        <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-500/90 to-blue-600/90 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                                <path d="M4 22h16"></path>
+                                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                                <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-bold text-lg tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-100">WINMIX</span>
+                            <span class="text-[10px] -mt-1 text-blue-400/80 tracking-widest">TIPSTER</span>
+                        </div>
+                    </a>
+                    <p class="text-gray-400 text-sm mb-6 max-w-xs">
+                        Készíts előrejelzéseket a közelgő mérkőzésekről és versenyezz barátaiddal, hogy kiderüljön, ki a legjobb.
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="col-span-1">
+                    <h3 class="text-white font-semibold mb-6 border-b border-white/10 pb-2">Gyors linkek</h3>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="/" class="text-gray-400 hover:text-blue-400 transition-colors duration-200 text-sm flex items-center gap-2 group">
+                                <span class="h-1 w-1 rounded-full bg-gray-700 group-hover:bg-blue-500 transition-colors duration-200"></span>
+                                Kezdőlap
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/matches" class="text-gray-400 hover:text-blue-400 transition-colors duration-200 text-sm flex items-center gap-2 group">
+                                <span class="h-1 w-1 rounded-full bg-gray-700 group-hover:bg-blue-500 transition-colors duration-200"></span>
+                                Mérkőzések
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/statistics" class="text-gray-400 hover:text-blue-400 transition-colors duration-200 text-sm flex items-center gap-2 group">
+                                <span class="h-1 w-1 rounded-full bg-gray-700 group-hover:bg-blue-500 transition-colors duration-200"></span>
+                                Statisztikák
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Resources -->
+                <div class="col-span-1">
+                    <h3 class="text-white font-semibold mb-6 border-b border-white/10 pb-2">Források</h3>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="/faq" class="text-gray-400 hover:text-blue-400 transition-colors duration-200 text-sm flex items-center gap-2 group">
+                                <span class="h-1 w-1 rounded-full bg-gray-700 group-hover:bg-blue-500 transition-colors duration-200"></span>
+                                GYIK
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/contact" class="text-gray-400 hover:text-blue-400 transition-colors duration-200 text-sm flex items-center gap-2 group">
+                                <span class="h-1 w-1 rounded-full bg-gray-700 group-hover:bg-blue-500 transition-colors duration-200"></span>
+                                Kapcsolat
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="col-span-1">
+                    <h3 class="text-white font-semibold mb-6 border-b border-white/10 pb-2">Iratkozz fel</h3>
+                    <p class="text-gray-400 text-sm mb-4">Kapd meg a legújabb tippeket és frissítéseket</p>
+                    
+                    <div class="flex mb-6">
+                        <input type="email" placeholder="Email címed" class="flex-1 bg-white/5 border border-white/10 rounded-l-lg px-4 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent" />
+                        <button class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-2 rounded-r-lg text-sm font-medium flex items-center gap-1.5 transition-colors duration-300">
+                            <span>Küldés</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-14 pt-6 border-t border-gray-800/50">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-500 text-sm mb-4 md:mb-0">
+                        © 2025 WinMix Tipster. Minden jog fenntartva.
+                    </p>
+                    <p class="text-gray-500 text-sm flex items-center">
+                        Készült 
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-red-500 mx-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                        </svg>
+                        sportrajongók számára
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
